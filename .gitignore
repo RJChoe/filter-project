@@ -1,0 +1,87 @@
+# Python virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# Python bytecode and compiled files
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Django database and media files
+*.sqlite3
+*.db
+media/
+staticfiles/
+static_root/
+
+# Logs and runtime files
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.tmp
+*.temp
+
+# Secrets and environment files
+.env
+.env.*
+
+# IDE and editor folders
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# pip environment management
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Test, coverage and CI artifacts
+htmlcov/
+.coverage
+.tox/
+.nox/
+.pytest_cache/
+coverage.xml
+nosetests.xml
+test-results.xml
+.cache/
+.junit.xml
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints
+
+# MyPy, Pylint, Flake8, Black, isort, etc.
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+.pylint.d/
+__pypackages__/
+
+# Node.js (if using with Django for frontend)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Docker
+*.pid
+*.seed
+docker-compose.override.yml
+
