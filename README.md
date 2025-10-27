@@ -97,3 +97,12 @@ Result Page
 ![Website with the Result Page. Green background for "SAFE" & Red background for "UNSAFE".](link to image)
 
 ((Replace the above images with actual screenshots from your project in a screenshots/ folder.))
+
+---
+
+## Contact
+    - Developer: Rebecca Jisoo Simpson
+
+    - Email: RJSimpson1004@gmail.com
+
+    - GitHub: RJChoe
