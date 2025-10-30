@@ -22,6 +22,13 @@ The **Skincare Allergy Filter** is a web application that helps users determine 
 
 ---
 
+## ⚙️ Project Workflow Diagram
+
+Diagram flow of data through application
+![Detailed workflow of the application components](./assets/workflow_allergy_filter.png)
+
+---
+
 ## Tech Stack
 - **Framework:** Python Django (handles both frontend and backend)  
 - **Database:** SQLite (default) or any Django-supported database  
