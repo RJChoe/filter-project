@@ -37,50 +37,51 @@ How to install and set up your project:
    ```
 
 2. Navigate to the project folder:
-```bash
-cd filter-project
-```
+   ```bash
+   cd filter-project
+      ```
 
 
 (Remember to .gitignore .venv prior to setting up)
 
 3. Create a virtual environment:
-```bash
-python -m venv .venv
-```
+    ```bash
+    python -m venv .venv
+    ```
 
 4. Activate the virtual environment:
 
     - **Windows:**
-```bash
-.venv\Scripts\activate
-```
+        ```bash
+        .venv\Scripts\activate
+        ```
+
 
     - **macOS/Linux:**
-```bash
-source .venv/bin/activate
-```
+        ```bash
+        source .venv/bin/activate
+        ```
 
 5. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 6. Apply migrations:
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 7. Run the development server:
-```bash
-python manage.py runserver
-```
+    ```bash
+    python manage.py runserver
+    ```
 
 8. Open your browser and visit http://localhost:8000
 
 ---
 
-##Usage
+## Usage
 1. Enter your personal allergies.
 2. Input the ingredients of a skincare product.
 3. Click "Check Safety".
@@ -89,6 +90,7 @@ python manage.py runserver
 ---
 
 ## Screenshots/Demo
+
 Here’s an example of how the app looks:
 Allergy Input Page
 ![Website requesting User's Allergy Input](link to image)
