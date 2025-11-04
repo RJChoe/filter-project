@@ -24,3 +24,10 @@ urlpatterns = [
     path('user', views.user),
     path('product', views.product),
 ]
+
+#TO DO:
+#Add names to your URL patterns for better maintainability.
+#For example, change path('', views.home) to path('', views.home, name='home').
+
+#Use named URLs in templates instead of hard-coded paths (e.g., change <a href="/user"> to <a href="{% url 'user' %}">) after you give that route a name.
+#Add a small test that asserts reverse('home') == '/' if you set name='home' in your URLconf.
