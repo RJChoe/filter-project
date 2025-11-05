@@ -5,9 +5,6 @@ def home(request):
     #return HttpResponse("Welcome to the Skincare Home Page!")
     return render(request, 'home.html')
     
-def user(request):
-    #return HttpResponse("User Allergy Input Page")
-    return render(request, 'user.html')
 
 def product(request):
     #return HttpResponse("Product Ingredient Input Page")
