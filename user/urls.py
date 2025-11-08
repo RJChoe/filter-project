@@ -4,5 +4,5 @@ from . import views
 app_name = 'user'
 
 urlpatterns = [
-    path('', views.user_list, name='list'),     # -> /users/
+    path('', views.user_list, name='list'),     # maps to /user/ (app root)
 ]
