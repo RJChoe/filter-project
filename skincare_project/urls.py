@@ -20,9 +20,15 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('', views.home, name='home'),
     path('users/', include(('user.urls', 'user'), namespace='user')),
     path('product/', views.product, name='product'),
+=======
+    path('', views.home),
+    path('user', views.user),
+    path('product', views.product),
+>>>>>>> parent of 0004797 (Merge pull request #2 from RJChoe/named-urls-django-best-practice)
 ]
 
 #TO DO:
