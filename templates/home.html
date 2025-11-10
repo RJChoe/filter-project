@@ -1,24 +1,14 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends 'layout.html'%}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Skincare Product Filter Site</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <header>
-        <h1>Welcome</h1>
-    </header>
+{% block title%}
+Home - Allergies Filter App
+{% endblock %}
 
-    <main>
-        <p> Check out the <a href="/product">Product Ingredient Input</a> to input product ingredients</p>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 My Django Site</p>
-    </footer>
-</body>
-</html>
+{% block content %}
+    <h1>Welcome to the Allergies Filter App</h1>
+    <p>This application helps you filter products based on your allergies.</p>
+    <ul>
+        <li><a href="/product/">Go to Product Ingredient Input</a></li>
+        <li><a href="/allergies/">View Allergies List</a></li>
+    </ul>
+{% endblock %}
