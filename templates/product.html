@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends 'layout.html'%}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Product Ingredient Input</title>
-    <script src="{% static 'js/main.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <header>
-        <h1>Welcome</h1>
-    </header>
+{% block title %}
+Home - Allergies Filter App
+{% endblock %}
 
+{% block content %}
     <main>
         <h2>Product Ingredient Input</h2>
         <form method="post">
@@ -21,12 +12,10 @@
             <textarea id="ingredients" name="ingredients" rows="4" cols="50"></textarea>
             <button type="submit">Filter Products</button>
         </form>
-        <!-- Future feature: Add a menu  button instead of clicking on each page per link -->
          <p> Go back to <a href= "/">Home Page</a></p>
     </main>
 
     <footer>
-        <p>&copy; 2023 My Django Site</p>
+        <p>&copy; 2025 My Django Site</p>
     </footer>
-</body>
-</html>
+{% endblock %}
