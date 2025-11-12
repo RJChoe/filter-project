@@ -14,11 +14,15 @@ class Allergy(models.Model):
         choices=ALLERGIES_CHOICES,
         default='other'
     )
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(
+        blank=True, 
+        null=True,
+        help_text="Optional description of the allergen"
+    )
     common_names = models.TextField(
         blank=True, 
         null=True,
-        help_text="Comma-separated list of alternative names for this allergen"
+        help_text="Comma-separated list of alternative names for this allergen (e.g., 'milk, lactose, casein')"
     )
     is_active = models.BooleanField(
         default=True,
