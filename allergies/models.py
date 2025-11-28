@@ -1,7 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .constants.allergens import ALLERGIES_CHOICES
+from .constants.choices import CATEGORY_CHOICES, CATEGORY_OTHER
 
+##CATEGORY_CHOICES define dingle field on Django model
+## use: category field on Allergy model
+## structure: flat list of 2-tuples (database_key, human_label)
+## database value: database_key (e.g., 'food', 'fragrance', 'other') saved to database
+## purpose: categorize Allergy model objects themselves
 class Allergy(models.Model):
     """
     Pre-defined list of common allergens/ingredients.
@@ -11,14 +16,15 @@ class Allergy(models.Model):
     name = models.CharField(max_length=200, unique=True)
     category = models.CharField(
         max_length=50, 
-        choices=ALLERGIES_CHOICES,
-        default='other'
+        choices=CATEGORY_CHOICES,
+        default=CATEGORY_OTHER,
     )
-    description = models.TextField(
-        blank=True, 
-        null=True,
-        help_text="Optional description of the allergen"
-    )
+    #probably not useful
+    #description = models.TextField(
+    #    blank=True, 
+    #    null=True,
+    #    help_text="Optional description of the allergen"
+    #)
     common_names = models.TextField(
         blank=True, 
         null=True,
