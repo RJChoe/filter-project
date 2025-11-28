@@ -1,63 +1,29 @@
 # --- Category Definitions ---
+# Catehory Keys (Borad, Database values)
 CATEGORY_FOOD = 'food'
 CATEGORY_CONTACT = 'contact'
-CATEGORY_FRAGRANCE = 'fragrance'
-CATEGORY_PRESERVATIVE = 'preservative'
-CATEGORY_BOTANICAL = 'botanical'
-CATEGORY_SURFACTANT = 'surfactant'
-CATEGORY_SUNSCREEN = 'sunscreen'
-CATEGORY_ACID = 'acid'
-CATEGORY_COLORANT = 'colorant'
-CATEGORY_PROTEIN = 'protein'
+CATEGORY_INHALANT = 'inhalant'
 CATEGORY_OTHER = 'other'
 
 # --- 2. Category Choices (For the Model field) ---
 CATEGORY_CHOICES = [
     (CATEGORY_FOOD, 'Food Allergens'),
-    (CATEGORY_FRAGRANCE, 'Fragrance Allergens'),
+    (CATEGORY_CONTACT, 'Contact/Topical Allergens'),
+    (CATEGORY_INHALANT, 'Inhalant Allergens'),
     (CATEGORY_OTHER, 'Other Allergens'), # <-- Category label
 ]
 
-# --- The actual Choices (Key-Value Pairs for the database) ---
+# --- choices/specific allergen lists (Key-Value Pairs for the database) ---
+## alphabetical ##
 
-# Food Allergens (example)
-FOOD_ALLERGENS = [
-    ("peanut", "Peanut"),
-    ("tree_nut", "Tree Nut (General)"),
-    ("gluten", "Gluten / Wheat"),
-    ("dairy", "Dairy / Milk"),
-    ("soy", "Soy"),
-    ("shellfish", "Shellfish"),
-]
-
-# Contact/Topical Allergens (example)
-CONTACT_ALLERGENS = [
-    ("nickel", "Nickel"),
-    ("latex", "Latex"),
-    ("lanolin", "Lanolin"),
-]
-
-# Fragrance Allergens (based on your example)
-FRAGRANCE_ALLERGENS = [
-    ("linalool", "Linalool"),
-    ("limonene", "Limonene"),
-    ("geraniol", "Geraniol"),
-    ("citronellol", "Citronellol"),
-    ("eugenol", "Eugenol"),
-    # ... and so on
-]
-
-# Preservatives
-PRESERVATIVE_ALLERGENS = [
-    ("parabens", "Parabens (Methylparaben, Propylparaben, etc.)"),
-    ("formaldehyde", "Formaldehyde"),
-    ("formaldehyde_releasers", "Formaldehyde Releasers"),
-    ("methylisothiazolinone", "Methylisothiazolinone (MI)"),
-    ("methylchloroisothiazolinone", "Methylchloroisothiazolinone (MCI)"),
-    ("phenoxyethanol", "Phenoxyethanol"),
-    ("benzalkonium_chloride", "Benzalkonium Chloride"),
-    ("bronopol", "Bronopol"),
-    ("iodopropynyl_butylcarbamate", "Iodopropynyl Butylcarbamate"),
+# Acids and exfoliants
+ACID_ALLERGENS = [
+    ("glycolic_acid", "Glycolic Acid"),
+    ("salicylic_acid", "Salicylic Acid"),
+    ("lactic_acid", "Lactic Acid"),
+    ("citric_acid", "Citric Acid"),
+    ("benzoic_acid", "Benzoic Acid"),
+    ("sorbic_acid", "Sorbic Acid"),
 ]
 
 # Botanical/Essential oils
@@ -74,37 +40,6 @@ BOTANICAL_ALLERGENS = [
     ("lemongrass", "Lemongrass Oil"),
 ]
 
-# Surfactants and emulsifiers
-SURFACTANT_ALLERGENS = [
-    ("sls", "Sodium Lauryl Sulfate (SLS)"),
-    ("sles", "Sodium Laureth Sulfate (SLES)"),
-    ("cocamidopropyl_betaine", "Cocamidopropyl Betaine"),
-    ("peg_compounds", "PEG Compounds (Polyethylene Glycol)"),
-    ("polysorbates", "Polysorbates"),
-    ("sodium_lauroyl_sarcosinate", "Sodium Lauroyl Sarcosinate"),
-]
-
-# UV filters/Sunscreen ingredients
-SUNSCREEN_ALLERGENS = [
-    ("oxybenzone", "Oxybenzone (Benzophenone-3)"),
-    ("octinoxate", "Octinoxate (Octyl Methoxycinnamate)"),
-    ("avobenzone", "Avobenzone"),
-    ("octocrylene", "Octocrylene"),
-    ("homosalate", "Homosalate"),
-    ("titanium_dioxide", "Titanium Dioxide"),
-    ("zinc_oxide", "Zinc Oxide"),
-]
-
-# Acids and exfoliants
-ACID_ALLERGENS = [
-    ("glycolic_acid", "Glycolic Acid"),
-    ("salicylic_acid", "Salicylic Acid"),
-    ("lactic_acid", "Lactic Acid"),
-    ("citric_acid", "Citric Acid"),
-    ("benzoic_acid", "Benzoic Acid"),
-    ("sorbic_acid", "Sorbic Acid"),
-]
-
 # Colorants and dyes
 COLORANT_ALLERGENS = [
     ("ci_dyes", "CI Dyes (Color Index)"),
@@ -114,17 +49,38 @@ COLORANT_ALLERGENS = [
     ("mica", "Mica"),
 ]
 
-# Proteins and extracts
-PROTEIN_ALLERGENS = [
-    ("lanolin", "Lanolin (Wool Alcohol)"),
-    ("collagen", "Collagen"),
-    ("keratin", "Keratin"),
-    ("silk_protein", "Silk Protein"),
-    ("wheat_protein", "Wheat Protein"),
-    ("soy_protein", "Soy Protein"),
-    ("beeswax", "Beeswax"),
-    ("propolis", "Propolis"),
-    ("royal_jelly", "Royal Jelly"),
+# Contact/Topical Allergens (example)
+CONTACT_ALLERGENS = [
+    ("nickel", "Nickel"),
+    ("latex", "Latex"),
+    ("lanolin", "Lanolin"),
+]
+
+DUST_ALLERGENS = [
+    ("dust_mite", "Dust Mite"),
+    ("pollen", "Pollen"),
+    ("mold_spores", "Mold Spores"),
+    ("pet_dander", "Pet Dander"),
+]
+
+# Fragrance Allergens (based on your example)
+FRAGRANCE_ALLERGENS = [
+    ("linalool", "Linalool"),
+    ("limonene", "Limonene"),
+    ("geraniol", "Geraniol"),
+    ("citronellol", "Citronellol"),
+    ("eugenol", "Eugenol"),
+    # ... and so on
+]
+
+# Food Allergens (example)
+FOOD_ALLERGENS = [
+    ("peanut", "Peanut"),
+    ("tree_nut", "Tree Nut (General)"),
+    ("gluten", "Gluten / Wheat"),
+    ("dairy", "Dairy / Milk"),
+    ("soy", "Soy"),
+    ("shellfish", "Shellfish"),
 ]
 
 # Other common allergens
@@ -140,29 +96,79 @@ OTHER_ALLERGENS = [
     ("isopropyl_alcohol", "Isopropyl Alcohol"),
 ]
 
-# Combined choices with optgroups for forms
-ALLERGIES_CHOICES = [
-    ("Fragrances", FRAGRANCE_ALLERGENS),
-    ("Preservatives", PRESERVATIVE_ALLERGENS),
-    ("Botanicals & Essential Oils", BOTANICAL_ALLERGENS),
-    ("Surfactants & Emulsifiers", SURFACTANT_ALLERGENS),
-    ("Sunscreen Ingredients", SUNSCREEN_ALLERGENS),
-    ("Acids & Exfoliants", ACID_ALLERGENS),
-    ("Colorants & Dyes", COLORANT_ALLERGENS),
-    ("Proteins & Extracts", PROTEIN_ALLERGENS),
-    ("Other Ingredients", OTHER_ALLERGENS),
+# Preservatives
+PRESERVATIVE_ALLERGENS = [
+    ("parabens", "Parabens (Methylparaben, Propylparaben, etc.)"),
+    ("formaldehyde", "Formaldehyde"),
+    ("formaldehyde_releasers", "Formaldehyde Releasers"),
+    ("methylisothiazolinone", "Methylisothiazolinone (MI)"),
+    ("methylchloroisothiazolinone", "Methylchloroisothiazolinone (MCI)"),
+    ("phenoxyethanol", "Phenoxyethanol"),
+    ("benzalkonium_chloride", "Benzalkonium Chloride"),
+    ("bronopol", "Bronopol"),
+    ("iodopropynyl_butylcarbamate", "Iodopropynyl Butylcarbamate"),
 ]
 
-## going to remove for a define the individual categories
-## and use them to define the choices for the category field.
+# Proteins and extracts
+PROTEIN_ALLERGENS = [
+    ("lanolin", "Lanolin (Wool Alcohol)"),
+    ("collagen", "Collagen"),
+    ("keratin", "Keratin"),
+    ("silk_protein", "Silk Protein"),
+    ("wheat_protein", "Wheat Protein"),
+    ("soy_protein", "Soy Protein"),
+    ("beeswax", "Beeswax"),
+    ("propolis", "Propolis"),
+    ("royal_jelly", "Royal Jelly"),
+]
 
-# --- The Grouped Choice Constant ---
+# UV filters/Sunscreen ingredients
+SUNSCREEN_ALLERGENS = [
+    ("oxybenzone", "Oxybenzone (Benzophenone-3)"),
+    ("octinoxate", "Octinoxate (Octyl Methoxycinnamate)"),
+    ("avobenzone", "Avobenzone"),
+    ("octocrylene", "Octocrylene"),
+    ("homosalate", "Homosalate"),
+    ("titanium_dioxide", "Titanium Dioxide"),
+    ("zinc_oxide", "Zinc Oxide"),
+]
+
+# Surfactants and emulsifiers
+SURFACTANT_ALLERGENS = [
+    ("sls", "Sodium Lauryl Sulfate (SLS)"),
+    ("sles", "Sodium Laureth Sulfate (SLES)"),
+    ("cocamidopropyl_betaine", "Cocamidopropyl Betaine"),
+    ("peg_compounds", "PEG Compounds (Polyethylene Glycol)"),
+    ("polysorbates", "Polysorbates"),
+    ("sodium_lauroyl_sarcosinate", "Sodium Lauroyl Sarcosinate"),
+]
+
+# --- The Grouped Choice Constant (Grouping/UI)---
 # list of 3-tuples: (database_key, human_readable_label, choice_list)
 # useful django form rendering <optgroup> tags
-# template iteration (require human readble category label)
-ALLERGIES_CHOICES = [
-    (CATEGORY_FOOD, 'Food Allergens', FOOD_ALLERGENS),
-    (CATEGORY_CONTACT, 'Contact Allergens', CONTACT_ALLERGENS),
-    (CATEGORY_FRAGRANCE, 'Fragrance Allergens', FRAGRANCE_ALLERGENS),
-    (CATEGORY_OTHER, 'Other Allergens', OTHER_ALLERGENS),
+# template iteration (require human readable category label)
+# Assuming you have defined the Category Keys (GENERIC_CONTACT, etc.)
+# and the Specific Allergen Lists (FRAGRANCE_ALLERGENS, etc.)
+
+# --- 3. Form Grouping for OptGroups (3-tuples) ---
+# Structure: (generic_key, optgroup_label, choices_list)
+FORM_ALLERGIES_CHOICES = [
+    # All of these items will be classified as 'contact' in the database
+    (CATEGORY_CONTACT, "Acids & Exfoliants", ACID_ALLERGENS),
+    (CATEGORY_CONTACT,"Botanicals & Essential Oils", BOTANICAL_ALLERGENS),
+    (CATEGORY_CONTACT, "Colorants & Dyes", COLORANT_ALLERGENS),
+    (CATEGORY_CONTACT, "General Contact Allergens", CONTACT_ALLERGENS),
+    (CATEGORY_CONTACT, "Cosmetic Fragrances", FRAGRANCE_ALLERGENS),
+    (CATEGORY_CONTACT, "Cosmetic Preservatives", PRESERVATIVE_ALLERGENS),
+    (CATEGORY_CONTACT, "Proteins & Extracts", PROTEIN_ALLERGENS),
+    (CATEGORY_CONTACT, "Sunscreen Ingredients", SUNSCREEN_ALLERGENS),
+    (CATEGORY_CONTACT, "Surfactants & Emulsifiers", SURFACTANT_ALLERGENS),
+    
+    # This item will be classified as 'food' in the database
+    (CATEGORY_FOOD, "Major Food Allergens", FOOD_ALLERGENS),
+    
+    # This item will be classified as 'inhalant' in the database
+    (CATEGORY_INHALANT, "Environmental Inhalants", DUST_ALLERGENS),
+    
+    (CATEGORY_OTHER, "Other General Contact", OTHER_ALLERGENS),
 ]
