@@ -11,36 +11,28 @@ from .constants.choices import CATEGORY_CHOICES, CATEGORY_OTHER
 # Allergy model
 # User model (Django's built-in User)
 # UserAllergy model to link users to their allergies)
-class Allergy(models.Model):
+class AllergenExposure(models.Model):
     """
     Pre-defined list of common allergens/ingredients.
     Admins can manage this list, users select from it.
     """
-    
-    name = models.CharField(
-        max_length=100,
-        choices=CATEGORY_CHOICES,
-        help_text="Name of the allergen/ingredient"
-    )
-    
+    # 1. Primary Selection: The broad category (User selects this first)   
     category = models.CharField(
-        max_length=50, 
-        choices=CATEGORY_CHOICES,
+        max_length=15,
+        choices=CATEGORY_CHOICES, #e.g., food, contact, inhalant
         default=CATEGORY_OTHER,
+        help_text = 'Generic category of allergen'
     )
-    #probably not useful#
-    #description = models.TextField(
-    #    blank=True, 
-    #    null=True,
-    #    help_text="Optional description of the allergen"
-    #)
     
-    #probably not useful#
-    #common_names = models.TextField(
-    #    blank=True, 
-    #    null=True,
-    #    help_text="Comma-separated list of alternative names for this allergen (e.g., 'milk, lactose, casein')"
-    #)
+    # 2. Secondary Selection: The specific allergen/ingredient
+    # selected based on the category chosen above
+    allergen_name = models.CharField(
+        max_length=50,
+        choices=[],  # Choices will be dynamically set in forms
+        blank=True,
+        null=True,
+        help_text='Specific allergen (choices filtered via category)'
+    )
     
     is_active = models.BooleanField(
         default=True,
@@ -52,11 +44,10 @@ class Allergy(models.Model):
     class Meta:
         verbose_name = "Allergy"
         verbose_name_plural = "Allergies"
-        ordering = ['category', 'name']
+        ordering = ['category', 'allergen_name']
 
     def __str__(self):
-        return self.name
-
+        return self.allergen_name
 
 class UserAllergy(models.Model):
     """
