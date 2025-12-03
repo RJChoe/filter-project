@@ -3,14 +3,14 @@
 CATEGORY_FOOD = 'food'
 CATEGORY_CONTACT = 'contact'
 CATEGORY_INHALANT = 'inhalant'
-CATEGORY_OTHER = 'other'
+CATEGORY_OTHER = 'other' # <-- String Value stored in DB (self.category)
 
 # --- Category Choices (For the Model field) ---
 CATEGORY_CHOICES = [
     (CATEGORY_FOOD, 'Food Allergens'),
     (CATEGORY_CONTACT, 'Contact/Topical Allergens'),
     (CATEGORY_INHALANT, 'Inhalant Allergens'),
-    (CATEGORY_OTHER, 'Other Allergens'), # <-- Category label
+    (CATEGORY_OTHER, 'Other Allergens'), # <-- Category label (displayed via self.get_category_display())
 ]
 
 # --- choices/specific allergen lists (Key-Value Pairs for the database) ---
@@ -209,4 +209,35 @@ CATEGORY_TO_ALLERGENS_MAP = build_category_to_allergens_map(FORM_ALLERGIES_CHOIC
 #    'contact': [('glycolic_acid', 'Glycolic Acid'), ('tea_tree_oil', 'Tea Tree Oil'), ...],
 #    'food': [('peanut', 'Peanut'), ('tree_nut', 'Tree Nut (General)'), ...],
 #    ...
+# }
+
+
+# --- Pre-calculate a flat map for efficient lookups ---
+# Maps specific allergen_key -> human_readable_label across ALL categories.
+def build_flat_allergen_label_map(category_to_allergens_map):
+    """
+    Creates a single dictionary mapping all allergen keys (e.g., 'peanut') 
+    to their labels (e.g., 'Peanut'), optimized for __str__ lookups.
+    """
+    flat_map = {}
+    
+    # Iterate through the values of the category map (which are lists of (key, label) tuples)
+    for allergen_list in category_to_allergens_map.values():
+        # Update the flat_map with the tuples from the list. 
+        # Since dict() can take a list of tuples, this is a clean way to merge.
+        # Note: If keys are duplicated across categories, the last one processed wins.
+        flat_map.update(dict(allergen_list))
+        
+    return flat_map
+
+# This dictionary is created once when the module is loaded.
+FLAT_ALLERGEN_LABEL_MAP = build_flat_allergen_label_map(CATEGORY_TO_ALLERGENS_MAP)
+
+# FLAT_ALLERGEN_LABEL_MAP now looks like:
+# {
+#     'glycolic_acid': 'Glycolic Acid',
+#     'tea_tree_oil': 'Tea Tree Oil',
+#     'peanut': 'Peanut',
+#     'linalool': 'Linalool',
+#     # ... every single allergen key is mapped to its label
 # }

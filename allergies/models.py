@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .constants.choices import (
 CATEGORY_CHOICES,
 CATEGORY_OTHER,
-CATEGORY_TO_ALLERGENS_MAP,
+FLAT_ALLERGEN_LABEL_MAP,
 )
 
 ##CATEGORY_CHOICES define single field on Django model
@@ -53,10 +53,12 @@ class AllergenExposure(models.Model):
         ordering = ['category', 'allergen_name']
         
     def __str__(self):
+        # Display as "Category: Allergen Label"
+        category_display = self.get_category_display()
+        
         if self.allergen_name:
-            label_list = CATEGORY_TO_ALLERGENS_MAP.get(self.category, [])
-            label_map = dict(label_list)
-            allergen_label = label_map.get(self.allergen_name, self.allergen_name)
-            return f"{self.get_category_display()} - {allergen_label}"
+            allergen_label = FLAT_ALLERGEN_LABEL_MAP.get(self.allergen_name, self.allergen_name)
+
+            return f"{category_display}: {allergen_label}"
         else:
-            return f"{self.get_category_display()}"
+            return f"{category_display}: [No Allergen Selected]"

@@ -34,12 +34,12 @@ class TestAllergenExposureModel:
         # Expected for Contact: 
         # Category label: 'Contact/Topical Allergens' (from CATEGORY_CHOICES)
         # Allergen label: 'Sodium Lauryl Sulfate (SLS)' (from SURFACTANT_ALLERGENS)
-        assert str(allergen_contact) == "Contact/Topical Allergens - Sodium Lauryl Sulfate (SLS)"
+        assert str(allergen_contact) == "Contact/Topical Allergens: Sodium Lauryl Sulfate (SLS)"
 
         # Expected for Food:
         # Category label: 'Food Allergens' (from CATEGORY_CHOICES)
         # Allergen label: 'Peanut' (from FOOD_ALLERGENS)
-        assert str(allergen_food) == "Food Allergens - Peanut"
+        assert str(allergen_food) == "Food Allergens: Peanut"
 
     # No model instances are needed for this test, as it only checks constants
     def test_category_to_allergens_map(self):
