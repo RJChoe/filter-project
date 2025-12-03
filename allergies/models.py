@@ -1,9 +1,9 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
 from .constants.choices import (
 CATEGORY_CHOICES,
 CATEGORY_OTHER,
-CATEGORY_TO_ALLERGENS_MAP,
+FLAT_ALLERGEN_LABEL_MAP,
 )
 
 ##CATEGORY_CHOICES define single field on Django model
@@ -12,73 +12,96 @@ CATEGORY_TO_ALLERGENS_MAP,
 ## database value: database_key (e.g., 'food', 'fragrance', 'other') saved to database
 ## purpose: categorize AllergenExposure model objects themselves
 
-# Allergy model
-# User model (Django's built-in User)
+# Allergen model (the allergen catalog in allergies app)
+# CustomUser model (in users app, extends Django User model)
 # UserAllergy model to link users to their allergies)
-class AllergenExposure(models.Model):
+class Allergen(models.Model):
     """
     Pre-defined list of common allergens/ingredients.
     Admins can manage this list, users select from it.
     """
-    # 1. Primary Selection: The broad category (User selects this first)   
+    # Primary Selection: The broad category (User selects this first)   
     category = models.CharField(
         max_length=15,
-        choices=CATEGORY_CHOICES, #e.g., food, contact, inhalant
+        choices=CATEGORY_CHOICES,
         default=CATEGORY_OTHER,
-        help_text = 'Generic category of allergen'
+        db_index=True,
+        help_text='Generic allergen category',
     )
     
-    # 2. Secondary Selection: The specific allergen/ingredient
+    # Secondary Selection: The specific allergen/ingredient KEY
     # selected based on the category chosen above
     allergen_name = models.CharField(
         max_length=50,
-        choices=[],  # Choices will be dynamically set in forms
-        blank=True,
-        null=True,
-        help_text='Specific allergen (choices filtered via category)'
+        choices=[],
+        # leave choices=[] because the choices are category-dependent 
+        # and are filtered dynamically in the forms.
+        blank=False,
+        null=False,
+        db_index=True,
+        help_text='Specific allergen (choices filtered via category)',
     )
     
     is_active = models.BooleanField(
         default=True,
-        help_text="Inactive allergies won't be shown in user selection"
+        help_text="Inactive allergies won't be shown in user selection",
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Allergy"
-        verbose_name_plural = "Allergies"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['category', 'allergen_name'],
+                name='uniq_category_allergen',
+            ),
+        ]
+        verbose_name = "Allergen"
+        verbose_name_plural = "Allergens"
         ordering = ['category', 'allergen_name']
-
+        
     def __str__(self):
+        # Display as "Category: Allergen Label"
+        category_display = self.get_category_display()
+        
         if self.allergen_name:
-            label_map = dict(CATEGORY_TO_ALLERGENS_MAP.get(self.category, []))
-            allergen_label = label_map.get(self.allergen_name, self.allergen_name)
-            return f"{self.get_category_display()} - {allergen_label}"
+            allergen_label = FLAT_ALLERGEN_LABEL_MAP.get(self.allergen_name, self.allergen_name)
+
+            return f"{category_display}: {allergen_label}"
         else:
-            return f"{self.get_category_display()}"
+            return f"{category_display}: [No Allergen Selected]"
 
 class UserAllergy(models.Model):
     """
-    Links users to their selected allergies from the pre-defined list.
+    Links a user to an allergen they are allergic to.
+    Represents a user's specific allergy.
+    1-to-Many relationship: One user can have many allergens.
     """
     user = models.ForeignKey(
-        User, 
+        settings.AUTH_USER_MODEL, # <-- correct link to custom user model
         on_delete=models.CASCADE,
-        related_name='user_allergies'
+        related_name='user_allergens', #(or 'allergens' if you expose a M2M-like API), matching project conventions.
+        help_text='The user who has this allergy',
     )
-    allergen_exposure = models.ForeignKey(
-        AllergenExposure,
+    
+    allergen = models.ForeignKey(
+        Allergen,
         on_delete=models.CASCADE,
-        related_name='affected_users'
+        related_name='affected_users',
+        help_text='The allergen this user is allergic to',
     )
-    added_at = models.DateTimeField(auto_now_add=True)
+    noted_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'allergen'],
+                name='uniq_user_allergen',
+            ),
+        ]
         verbose_name = "User Allergy"
         verbose_name_plural = "User Allergies"
-        unique_together = ['user', 'allergen_exposure']
-        ordering = ['-added_at']
+        ordering = ['user', 'allergen']
 
     def __str__(self):
-        return f"{self.user.username} - {self.allergen_exposure.allergen_name}"
+        return f"{self.user.username} - {self.allergen}"
