@@ -1,5 +1,5 @@
 # --- Category Definitions ---
-# Category Keys (Generic, Database values)
+# Category Keys (Generic Database values)
 CATEGORY_FOOD = 'food'
 CATEGORY_CONTACT = 'contact'
 CATEGORY_INHALANT = 'inhalant'
@@ -130,7 +130,6 @@ PRESERVATIVE_ALLERGENS = [
 
 # Proteins and extracts
 PROTEIN_ALLERGENS = [
-    ("lanolin", "Lanolin (Wool Alcohol)"),
     ("collagen", "Collagen"),
     ("keratin", "Keratin"),
     ("silk_protein", "Silk Protein"),

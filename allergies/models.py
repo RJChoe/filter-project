@@ -1,12 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .constants.choices import CATEGORY_CHOICES, CATEGORY_OTHER
+from .constants.choices import (
+CATEGORY_CHOICES,
+CATEGORY_OTHER,
+CATEGORY_TO_ALLERGENS_MAP,
+)
 
 ##CATEGORY_CHOICES define single field on Django model
-## use: category field on Allergy model
+## use: category field on AllergenExposure model
 ## structure: flat list of 2-tuples (database_key, human_label)
 ## database value: database_key (e.g., 'food', 'fragrance', 'other') saved to database
-## purpose: categorize Allergy model objects themselves
+## purpose: categorize AllergenExposure model objects themselves
 
 # Allergy model
 # User model (Django's built-in User)
@@ -47,7 +51,12 @@ class AllergenExposure(models.Model):
         ordering = ['category', 'allergen_name']
 
     def __str__(self):
-        return self.allergen_name
+        if self.allergen_name:
+            label_map = dict(CATEGORY_TO_ALLERGENS_MAP.get(self.category, []))
+            allergen_label = label_map.get(self.allergen_name, self.allergen_name)
+            return f"{self.get_category_display()} - {allergen_label}"
+        else:
+            return f"{self.get_category_display()}"
 
 class UserAllergy(models.Model):
     """
@@ -58,8 +67,8 @@ class UserAllergy(models.Model):
         on_delete=models.CASCADE,
         related_name='user_allergies'
     )
-    allergy = models.ForeignKey(
-        Allergy,
+    allergen_exposure = models.ForeignKey(
+        AllergenExposure,
         on_delete=models.CASCADE,
         related_name='affected_users'
     )
@@ -68,8 +77,8 @@ class UserAllergy(models.Model):
     class Meta:
         verbose_name = "User Allergy"
         verbose_name_plural = "User Allergies"
-        unique_together = ['user', 'allergy']
+        unique_together = ['user', 'allergen_exposure']
         ordering = ['-added_at']
 
     def __str__(self):
-        return f"{self.user.username} - {self.allergy.name}"
+        return f"{self.user.username} - {self.allergen_exposure.allergen_name}"
