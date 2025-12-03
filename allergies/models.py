@@ -20,19 +20,21 @@ class AllergenExposure(models.Model):
     Pre-defined list of common allergens/ingredients.
     Admins can manage this list, users select from it.
     """
-    # 1. Primary Selection: The broad category (User selects this first)   
+    # Primary Selection: The broad category (User selects this first)   
     category = models.CharField(
         max_length=15,
-        choices=CATEGORY_CHOICES, #e.g., food, contact, inhalant
+        choices=CATEGORY_CHOICES,
         default=CATEGORY_OTHER,
-        help_text = 'Generic category of allergen'
+        help_text='Generic allergen category'
     )
     
-    # 2. Secondary Selection: The specific allergen/ingredient
+    # Secondary Selection: The specific allergen/ingredient KEY
     # selected based on the category chosen above
     allergen_name = models.CharField(
         max_length=50,
-        choices=[],  # Choices will be dynamically set in forms
+        choices=[],
+        # leave choices=[] because the choices are category-dependent 
+        # and are filtered dynamically in the forms.
         blank=True,
         null=True,
         help_text='Specific allergen (choices filtered via category)'
@@ -49,10 +51,11 @@ class AllergenExposure(models.Model):
         verbose_name = "Allergy"
         verbose_name_plural = "Allergies"
         ordering = ['category', 'allergen_name']
-
+        
     def __str__(self):
         if self.allergen_name:
-            label_map = dict(CATEGORY_TO_ALLERGENS_MAP.get(self.category, []))
+            label_list = CATEGORY_TO_ALLERGENS_MAP.get(self.category, [])
+            label_map = dict(label_list)
             allergen_label = label_map.get(self.allergen_name, self.allergen_name)
             return f"{self.get_category_display()} - {allergen_label}"
         else:
