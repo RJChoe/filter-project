@@ -8,15 +8,15 @@ SEVERITY_CHOICES,
 SOURCE_INFO_CHOICES,
 )
 
+# Allergen model (the allergen catalog in allergies app)
+# CustomUser model (in users app, extends Django User model)
+# UserAllergy model to link users to their allergies)
+
 ##CATEGORY_CHOICES define single field on Django model
 ## use: category field on AllergenExposure model
 ## structure: flat list of 2-tuples (database_key, human_label)
 ## database value: database_key (e.g., 'food', 'fragrance', 'other') saved to database
 ## purpose: categorize AllergenExposure model objects themselves
-
-# Allergen model (the allergen catalog in allergies app)
-# CustomUser model (in users app, extends Django User model)
-# UserAllergy model to link users to their allergies)
 class Allergen(models.Model):
     """
     Pre-defined catalog of allergens/ingredients.
@@ -60,7 +60,9 @@ class Allergen(models.Model):
             ),
         ]
         indexes = [
-            models.Index(fields=['category', 'is_active'], name='allergen_cat_active_idx'),
+            models.Index(
+                fields=['category', 'is_active'],
+                name='allergen_cat_active_idx'),
         ]
         verbose_name = "Allergen"
         verbose_name_plural = "Allergens"
@@ -86,14 +88,14 @@ class UserAllergy(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, # <-- correct link to custom user model
         on_delete=models.CASCADE,
-        related_name='user_allergies',
+        related_name='allergic_users',
         help_text='The user who has this allergy',
     )
     
     allergen = models.ForeignKey(
         Allergen,
         on_delete=models.CASCADE,
-        related_name='allergen_users',
+        related_name='user_allergens',
         help_text='The allergen this user is allergic to',
     )
     
@@ -145,12 +147,13 @@ class UserAllergy(models.Model):
         help_text="Inactive user allergies won't be considered in assessments",
     )
     
+    # internal tracking, verification, follow-up notes, etc.
     admin_notes = models.JSONField(
         default=dict,
         blank=True,
         help_text='Administrative notes in JSON format',
     )
-    # internal tracking, verification, follow-up notes, etc.
+
 
     class Meta:
         constraints = [
@@ -173,14 +176,21 @@ class UserAllergy(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.allergen}"
     
-    # double check that i want this behavior
     def clean(self):
+        """
+        Validate that the allergen being linked is active.
+
+        Raises:
+            ValidationError: If attempting to link to an inactive allergen.
+        """
         from django.core.exceptions import ValidationError
         if self.allergen and not self.allergen.is_active:
             raise ValidationError("Cannot link to an inactive allergen.")
     
-    # double check that i want this behavior
     def save(self, *args, **kwargs):
-        """Override save to ensure validation always runs."""
+        """
+        Override save to ensure validation always runs.
+        Guarantees data integrity regardless of how to object is saved (admin, form, script).
+        """
         self.full_clean()
         super().save(*args, **kwargs)
