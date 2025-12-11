@@ -466,7 +466,7 @@ jobs:
         python-version: ['3.11', '3.12', '3.14']
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
@@ -487,7 +487,7 @@ jobs:
         pytest --cov --cov-report=xml --cov-report=term-missing
     
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage.xml
